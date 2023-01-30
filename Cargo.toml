@@ -1,0 +1,36 @@
+[package]
+name = "prometheus-strongswan-exporter"
+version = "0.1.0"
+edition = "2018"
+
+[package.metadata.deb]
+maintainer = "Dmitriy Vlassov <dmitriy@vlassov.pw>"
+copyright = "Kolesa 2023"
+extended-description = "Prometheus exporter for Strongswan VPN"
+depends = "$auto"
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/release/prometheus-strongswan-exporter", "/usr/bin/prometheus-strongswan-exporter", "755"]
+]
+systemd-units = { enable = true }
+maintainer-scripts = "deb_scripts/"
+
+[profile.dev]
+opt-level = 0
+debug = true
+codegen-units = 1
+
+[profile.release]
+opt-level = "z"
+codegen-units = 1
+debug = false
+lto = true
+
+[dependencies]
+tokio = { version="1.20.1", features = ["rt-multi-thread", "macros"] }
+axum = "0.6.4"
+clap = { version = "4.0.17", features = ["derive"] }
+
+[target.x86_64-unknown-linux-gnu]
+dockerfile = "Dockerfile"

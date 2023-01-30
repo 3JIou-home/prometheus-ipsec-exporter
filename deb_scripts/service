@@ -1,0 +1,13 @@
+[Unit]
+Description=Prometheus exporter
+After=network.target fs.target
+StartLimitBurst=5
+
+[Service]
+Restart=always
+RestartSec=2s
+ExecStart=/usr/bin/prometheus-strongswan-exporter --bind 0.0.0.0:9090
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
